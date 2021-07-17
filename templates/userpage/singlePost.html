@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+        .container1{
+            margin:30px;
+        }
+            .myimage{
+                width:400px;
+                margin: auto;
+                display: block;
+            }
+
+        .caption{
+              padding: 20px;
+            text-align: center;
+        }
+
+        #postHeading{
+            padding: 20px;
+            text-align: center;
+            font-size: 3rem;
+        }
+        .box3{
+            margin: 30 100px;
+         
+        }
+
+{% endblock css %}
+
+
+{% block body %}
+
+    <div class="container1">  
+        <div class="box1">
+            <h1 id="postHeading">{{ post.user }}</h1>
+        </div>
+        <div class="box2">
+           <img class="myimage" src="{{post.image.url}}" alt="">
+        </div>
+        <div class="box3">
+            
+
+            <h4 class="caption">{{post.caption}}</h4>
+        </div>
+    </div>
+<section id="comments">
+    <ul>
+        {% for comment in postComments %}
+            <li>
+            <h6> {{ comment.user }} </h6>
+            <p> {{ comment.text }} </p>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+    <div class="container my-4">
+<h2 id="docommenthere">Drop Comment</h2>
+<div id="commentsection">
+
+  <form action="{% url "userpage:post-detail-page" post.user post.id %}" id="commentform" method="post">
+   {% csrf_token %}
+    <div class="mb-3">
+      {{ comment_form.text|as_crispy_field }}
+      <input type="hidden" name="post_id" value="">
+    </div>
+    <button type="submit" value="commentform" id="newcomment" class="btn btn-primary mb-5">Comment</button>
+  </form>
+  
+
+</div>
+</div>
+{% endblock body %}
+
+{% block modals %}
+
+{% endblock modals %}
+
+{% block js %}
+<script type="text/javascript">
+  
+</script>
+{% endblock js %}
