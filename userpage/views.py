@@ -56,7 +56,7 @@ def singlePost(request, username, id):
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.post = post
-            comment.user = request.user.username
+            comment.user = request.user
             comment.save()
             return HttpResponseRedirect(reverse("userpage:post-detail-page", args=[username,id]))
 
@@ -66,38 +66,13 @@ def singlePost(request, username, id):
     postComments = post.postComments.all()
     comment_form = CommentForm()
     return render(request, 'userpage/singlePost.html', {"post": post, "postComments":postComments ,'comment_form': comment_form})
-    # def post(self, request, username, id):
-    #     post = get_object_or_404(
-    #     Post,
-    #     user=User.objects.get(username=username),
-    #     pk=id
-    #     )
-    #     comment_form=CommentForm(request.POST)
-    #     if comment_form.is_valid():
-    #         comment = comment_form.save(commit=False)
-    #         comment.post = post
-    #         comment.save()
-    #         return HttpResponseRedirect(reverse("userpage:post-detail-page", args=[username,id]))
 
-        
-    # # comments = post.comments.filter(status=True)
-    #     comment_form = CommentForm()
-    #     return render(request, 'userpage/singlePost.html', {"post": post, 'comment_form': comment_form})
-
-    # def get(self, request,username,id):
-    #     post = get_object_or_404(
-    #     Post,
-    #     user=User.objects.get(username=username),
-    #     pk=id
-    #     )
-    # # comments = post.comments.filter(status=True)
-    #     comment_form = CommentForm()
-    #     return render(request, 'userpage/singlePost.html', {"post": post, 'comment_form': comment_form})
 
 def delPost(request, ID):
     # every post have a unique identity
     post_ = Post.objects.filter(pk=ID)
     image_path = post_[0].image.url  # image location in system
+    # os.remove(image.path)
     post_.delete()
     messages.info(request, "Post Deleted")
     return redirect('/userpage')
@@ -136,7 +111,8 @@ def userProfile(request, username):
 
 def getPost(user):
     post_obj = Post.objects.filter(user=user)
-    imgList = [post_obj[i:i+3] for i in range(0, len(post_obj), 3)]
+    # imgList = [post_obj[i:i+3] for i in range(0, len(post_obj), 3)]
+    imgList = [post_obj[i] for i in range(0, len(post_obj))]
     return imgList
 
 
@@ -201,7 +177,7 @@ def follow(request, username):
 class Search_User(ListView):
     model = User
     template_name = "userpage/searchUser.html"
-    paginate_by = 5  # page_obj
+    # paginate_by = 5  # page_obj
 
     def get_queryset(self):
         username = self.request.GET.get("username", None)

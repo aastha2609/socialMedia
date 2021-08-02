@@ -61,12 +61,6 @@ class Following(models.Model):
     def __str__(self):
         return str(self.user)
 
-class Share(Post, models.Model):
-    author = models.ForeignKey(User, on_delete = models.CASCADE)
-
-    def __str__(self):
-        return str(self.user)
-
 class Comment(models.Model):
     user = models.TextField(max_length=120)
     text = models.TextField(max_length=400)

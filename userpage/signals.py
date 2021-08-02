@@ -11,13 +11,7 @@ def create_profile(sender, instance, created, **kwargs):
 
 @receiver(m2m_changed, sender = Following.followed.through) # which list is changed
 def add_follower(sender, instance, action, reverse, pk_set, **kwargs):
-    """
-        sender => model which will send signal (Following)
-        instance => username of user who is logged in (request.user)
-        action => pre_add if user followed someone, else pre_remove if user unfollowed someone
-        reverse => to be honest, I dont Know
-        pk_set => set of primary key of users whom i have followed
-    """
+
     followed_users = [] # list of users main (logged ) user have followed
     logged_user = User.objects.get(username = instance) # user who followed other users
     for i in pk_set:

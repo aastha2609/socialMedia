@@ -50,7 +50,6 @@
 
       <a role = "button" class="btn btn-warning mx-2" href = "{% url "userpage:post-detail-page" i.user i.id %}" >Comment</a>
 
-      <button  class="btn btn-info mx-4" > Repost </button>
       {% if request.user == i.user %}
       <a class="btn btn-danger ml-4 delete" href="{% url 'userpage:delpost' i.id %}" id="{{ i.id }}">Delete</a>
       {% endif %}

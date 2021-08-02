@@ -18,7 +18,7 @@
         {% endfor %}
     {% endif %}
 
-    {% if is_paginated %}
+    {% comment %} {% if is_paginated %}
         <a href="?page=1" role="button" class="btn btn-outline-primary">First</a>
 
         {% if page_obj.has_previous %}
@@ -33,6 +33,6 @@
             <a href="?page={{ page_obj.next_page_number }}" role="button" class="btn btn-outline-primary">{{ page_obj.next_page_number }}</a>
         {% endif %}
 
-    {% endif %}
+    {% endif %} {% endcomment %}
 
 {% endblock body %}
